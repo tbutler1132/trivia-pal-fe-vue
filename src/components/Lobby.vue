@@ -34,12 +34,8 @@
     <p>{{ selectedCategory }}</p>
     <div v-if="filteredQuestions.length">
       <Game 
-      v-for="(filteredQuestion, index) in filteredQuestions"
-      v-bind:key="filteredQuestion.id"
-      v-bind:question="filteredQuestion"
-      v-bind:index="index"
-      >
-      </Game>
+      v-bind:questions="filteredQuestions"
+      />
     </div>
     <Leaderboard />
   </div>
@@ -65,7 +61,8 @@ export default {
       selectedCategory: '',
       selectedDifficulty: '',
       questions: [],
-      filteredQuestions: [] 
+      filteredQuestions: [] ,
+      currentQuestion: 1,
     }
   },
   mounted: async function(){
