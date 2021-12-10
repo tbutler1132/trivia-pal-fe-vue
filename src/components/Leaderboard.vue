@@ -1,6 +1,7 @@
 <template>
   <div>
-      Leaderboard
+      <h1>Good game! You score was {{ numberOfCorrectAnswers }} / {{ totalQuestions }}</h1>
+      <button @click="resetGame">Play again?</button>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 
 export default {
   name: 'Leaderboard',
+  props: ['totalQuestions', 'numberOfCorrectAnswers', 'resetGame']
 }
 </script>
 

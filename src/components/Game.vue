@@ -1,63 +1,64 @@
 <template>
-  <div class="question">
+  <div v-if="currentQuestion === index" class="question">
       <div>
-          <h3 @click="randomizeAnswerOrder">{{ questions[currentQuestion].category }}</h3>
-          <h3>{{ questions[currentQuestion].difficulty }}</h3>
+          <h3>{{ question.question }}</h3>
+          <button 
+          v-for="answer in orderedAnswers"
+          v-bind:key="answer"
+          v-on:click="determineCorrect(answer.correct)"
+          >
+          {{ answer.answer }}
+          </button>
           <h3>{{ index }}</h3>
       </div>
       <div>
-          <h3>{{ questions[currentQuestion].question }}</h3>
-      </div>
-      <div>
-          <p v-bind:key="question.answer" v-for="question in orderQuestions">{{ question.answer }}</p>
       </div>
   </div>
 </template>
 
 <script>
-// console.log(questions)
 
 export default {
   name: 'Game',
-  props: ['questions', "index"],
+  props: ['question', "index", "currentQuestion", "nextQuestion", "questionAnsweredCorrectly"],
   data: function(){
       return {
-          currentQuestion: 0,
-          orderedQuestions: [],
+          orderedAnswers: [],
       }
   },
   created: function(){
-      return this.randomizeAnswerOrder()
+      this.randomizeAnswerOrder()
   },
   methods: {
-      incrementQuestion: function(ans){
-          console.log("Ans", ans)
-          this.currentQuestion++
+      incrementQuestion: function(){
+          this.nextQuestion()
       },
       randomizeAnswerOrder: function(){
-          this.currentQuestion++
           const answerOptions = []
-          this.questions[this.currentQuestion].incorrect_answers.forEach(el => {
+          this.question.incorrect_answers.forEach(el => {
               let obj = {
                   answer: el,
                   correct: false
               }
               answerOptions.push(obj)
           })
-          answerOptions.push({answer: this.questions[this.currentQuestion].correct_answer, correct: true})
-            console.log(answerOptions)
+          answerOptions.push({answer: this.question.correct_answer, correct: true})
             let currentIndex = answerOptions.length,  randomIndex;
             while (currentIndex != 0) {
 
-                // Pick a remaining element...
                 randomIndex = Math.floor(Math.random() * currentIndex);
                 currentIndex--;
 
-                // And swap it with the current element.
                 [answerOptions[currentIndex], answerOptions[randomIndex]] = [
                 answerOptions[randomIndex], answerOptions[currentIndex]];
             }
-            this.orderedQuestions = answerOptions
+            this.orderedAnswers = answerOptions
+      },
+      determineCorrect: function(correct){
+          if(correct){
+              this.questionAnsweredCorrectly()
+          }
+              this.incrementQuestion()
       }
       
   },

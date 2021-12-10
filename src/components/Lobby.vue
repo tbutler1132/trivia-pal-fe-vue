@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
     Lobby
+    <h1>Number of correct answers: {{ numberOfCorrectAnswers }}</h1>
+    <h1>Filtered Questions: {{ currentQuestion }}</h1>
+    <h1>Filtered Questions: {{ selectedNumberOfQuestions }}</h1>
     <b-form>
         <label class="mr-sm-2" for="inline-form-custom-select-pref">Difficulty</label>
         <b-form-select
@@ -8,7 +11,7 @@
           type="email"
           placeholder="Enter email"
           v-model="selectedDifficulty"
-          :options="['easy', 'Two', 'Three']"
+          :options="['easy', 'medium', 'hard']"
           required
         ></b-form-select>
         <label class="mr-sm-2" for="inline-form-custom-select-pref">Category</label>
@@ -17,7 +20,7 @@
           type="email"
           v-model="selectedCategory"
           placeholder="Enter email"
-          :options="['Geography', 'Politics', 'Books']"
+          :options="['Geography', 'Politics', 'Books', 'Sports', 'History', 'Entertainment: Film', 'Mythology', 'Science & Nature','Entertainment: Video Games', 'Entertainment: Music', 'Science: Computers',]"
           required
         ></b-form-select>
         <label class="mr-sm-2" for="inline-form-custom-select-pref">Number of Questions</label>
@@ -33,11 +36,25 @@
     </b-form>
     <p>{{ selectedCategory }}</p>
     <div v-if="filteredQuestions.length">
-      <Game 
-      v-bind:questions="filteredQuestions"
+      <Game
+      v-for="(question, index) in filteredQuestions"
+      v-bind:key="question.id"
+      v-bind:question="question"
+      v-bind:currentQuestion="currentQuestion"
+      v-bind:nextQuestion="nextQuestion"
+      v-bind:index="index"
+      v-bind:questionAnsweredCorrectly="questionAnsweredCorrectly"
+      >
+      </Game>
+    </div>
+    <div>
+      <Leaderboard 
+      v-if="currentQuestion >= selectedNumberOfQuestions"
+      v-bind:numberOfCorrectAnswers="numberOfCorrectAnswers"
+      v-bind:totalQuestions="selectedNumberOfQuestions"
+      v-bind:resetGame="resetGame"
       />
     </div>
-    <Leaderboard />
   </div>
 </template>
 
@@ -57,12 +74,14 @@ export default {
   },
   data: function(){
     return {
-      selectedNumberOfQuestions: '',
+      selectedNumberOfQuestions: 5,
       selectedCategory: '',
       selectedDifficulty: '',
       questions: [],
       filteredQuestions: [] ,
-      currentQuestion: 1,
+      currentQuestion: 0,
+      numberOfCorrectAnswers: 0,
+      numberOfIncorrectAnswers: 0,
     }
   },
   mounted: async function(){
@@ -80,7 +99,36 @@ export default {
     filterQuestions: function(){
       const category = this.questions.filter(q => q.category === this.selectedCategory)
       const difficulty = category.filter(q => q.difficulty === this.selectedDifficulty)
-      this.filteredQuestions = difficulty
+      const shuffled = this.shuffle(difficulty)
+      
+      this.filteredQuestions = shuffled.slice(0, this.selectedNumberOfQuestions)
+    },
+    nextQuestion: function(){
+      this.currentQuestion++
+    },
+    questionAnsweredCorrectly: function(){
+      this.numberOfCorrectAnswers++
+    },
+    shuffle: function(array){
+      let currentIndex = array.length,  randomIndex;
+      while (currentIndex != 0) {
+
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+      }
+
+      return array;
+    },
+    resetGame: function(){
+      this.selectedNumberOfQuestions = 5
+      this.selectedCategory = ''
+      this.selectedDifficulty = ''
+      this.filteredQuestions = []
+      this.currentQuestion = 0
+      this.numberOfCorrectAnswers = 0
     }
   }
 }
