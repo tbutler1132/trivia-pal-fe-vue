@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>Good game! You score was {{ numberOfCorrectAnswers }} / {{ totalQuestions }}</h1>
+      <h1>Good game! Your score was {{ numberOfCorrectAnswers }} / {{ totalQuestions }}</h1>
       <button @click="resetGame">Play again?</button>
   </div>
 </template>

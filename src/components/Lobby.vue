@@ -1,40 +1,39 @@
 <template>
   <div class="hello">
-    Lobby
-    <h1>Number of correct answers: {{ numberOfCorrectAnswers }}</h1>
-    <h1>Filtered Questions: {{ currentQuestion }}</h1>
-    <h1>Filtered Questions: {{ selectedNumberOfQuestions }}</h1>
-    <b-form>
-        <label class="mr-sm-2" for="inline-form-custom-select-pref">Difficulty</label>
-        <b-form-select
-          id="input-1"
-          type="email"
-          placeholder="Enter email"
-          v-model="selectedDifficulty"
-          :options="['easy', 'medium', 'hard']"
-          required
-        ></b-form-select>
-        <label class="mr-sm-2" for="inline-form-custom-select-pref">Category</label>
-        <b-form-select
-          id="input-1"
-          type="email"
-          v-model="selectedCategory"
-          placeholder="Enter email"
-          :options="['Geography', 'Politics', 'Books', 'Sports', 'History', 'Entertainment: Film', 'Mythology', 'Science & Nature','Entertainment: Video Games', 'Entertainment: Music', 'Science: Computers',]"
-          required
-        ></b-form-select>
-        <label class="mr-sm-2" for="inline-form-custom-select-pref">Number of Questions</label>
-        <b-form-select
-          id="input-1"
-          type="email"
-          placeholder="Enter email"
-          v-model="selectedNumberOfQuestions"
-          :options="['5', '10']"
-          required
-        ></b-form-select>
-            <b-button @click="filterQuestions">Start Game!</b-button>
-    </b-form>
-    <p>{{ selectedCategory }}</p>
+    <div v-if="!filteredQuestions.length" class="game-form">
+      <h1 class="header">Welcome to Trivia Pal!</h1>
+      <h3 class="header">Create a new game!</h3>
+      <b-form>
+          <label class="mr-sm-2" for="inline-form-custom-select-pref">Difficulty</label>
+          <b-form-select
+            id="input-1"
+            type="email"
+            placeholder="Enter email"
+            v-model="selectedDifficulty"
+            :options="['easy', 'medium', 'hard']"
+            required
+          ></b-form-select>
+          <label class="mr-sm-2" for="inline-form-custom-select-pref">Category</label>
+          <b-form-select
+            id="input-1"
+            type="email"
+            v-model="selectedCategory"
+            placeholder="Enter email"
+            :options="['Geography', 'Politics', 'Books', 'Sports', 'History', 'Entertainment: Film', 'Mythology', 'Science & Nature','Entertainment: Video Games', 'Entertainment: Music', 'Science: Computers',]"
+            required
+          ></b-form-select>
+          <label class="mr-sm-2" for="inline-form-custom-select-pref">Number of Questions</label>
+          <b-form-select
+            id="input-1"
+            type="email"
+            placeholder="Enter email"
+            v-model="selectedNumberOfQuestions"
+            :options="['5', '10']"
+            required
+          ></b-form-select>
+              <b-button @click="filterQuestions">Start Game!</b-button>
+      </b-form>
+    </div>
     <div v-if="filteredQuestions.length">
       <Game
       v-for="(question, index) in filteredQuestions"
@@ -44,6 +43,9 @@
       v-bind:nextQuestion="nextQuestion"
       v-bind:index="index"
       v-bind:questionAnsweredCorrectly="questionAnsweredCorrectly"
+      v-bind:category="selectedCategory"
+      v-bind:difficulty="selectedDifficulty"
+      v-bind:totalQuestions="selectedNumberOfQuestions"
       >
       </Game>
     </div>
@@ -148,5 +150,12 @@ li {
 }
 a {
   color: #42b983;
+}
+.game-form {
+  text-align: center;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 10%;
+  font-family: Impact, Charcoal, sans-serif;
 }
 </style>

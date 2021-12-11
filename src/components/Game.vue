@@ -1,26 +1,35 @@
 <template>
-  <div v-if="currentQuestion === index" class="question">
-      <div>
-          <h3>{{ question.question }}</h3>
-          <button 
-          v-for="answer in orderedAnswers"
-          v-bind:key="answer"
-          v-on:click="determineCorrect(answer.correct)"
-          >
-          {{ answer.answer }}
-          </button>
-          <h3>{{ index }}</h3>
-      </div>
-      <div>
-      </div>
-  </div>
+    <div v-if="currentQuestion === index">
+        <div class="game-info">
+            <h3>{{ category }}</h3>
+            <h3>{{ difficulty }}</h3>
+            <h3>{{ totalQuestions - index }} questions left!</h3>
+        </div>
+        <div class="question">
+            <div>
+                <h3>{{ question.question }}</h3>
+                <div class="answer-options">
+                    <b-button 
+                    v-for="answer in orderedAnswers"
+                    v-bind:key="answer"
+                    v-on:click="determineCorrect(answer.correct)"
+                    >
+                    {{ answer.answer }}
+                    </b-button>
+                </div>
+                <h3>{{ index }}</h3>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 
 export default {
   name: 'Game',
-  props: ['question', "index", "currentQuestion", "nextQuestion", "questionAnsweredCorrectly"],
+  props: ['question', "index", "currentQuestion", "nextQuestion", "questionAnsweredCorrectly", "category", "difficulty", "totalQuestions"],
   data: function(){
       return {
           orderedAnswers: [],
@@ -68,6 +77,15 @@ export default {
 <style>
 
     .question{
+        border: solid;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .answer-options{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         border: solid;
     }
 
