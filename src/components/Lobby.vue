@@ -1,38 +1,52 @@
 <template>
   <div class="hello">
-    <div v-if="!filteredQuestions.length" class="game-form">
+    <div v-if="!filteredQuestions.length">
       <h1 class="header">Welcome to Trivia Pal!</h1>
       <h3 class="header">Create a new game!</h3>
-      <b-form>
-          <label class="mr-sm-2" for="inline-form-custom-select-pref">Difficulty</label>
-          <b-form-select
-            id="input-1"
-            type="email"
-            placeholder="Enter email"
-            v-model="selectedDifficulty"
-            :options="['easy', 'medium', 'hard']"
-            required
-          ></b-form-select>
-          <label class="mr-sm-2" for="inline-form-custom-select-pref">Category</label>
-          <b-form-select
-            id="input-1"
-            type="email"
-            v-model="selectedCategory"
-            placeholder="Enter email"
-            :options="['Geography', 'Politics', 'Books', 'Sports', 'History', 'Entertainment: Film', 'Mythology', 'Science & Nature','Entertainment: Video Games', 'Entertainment: Music', 'Science: Computers',]"
-            required
-          ></b-form-select>
-          <label class="mr-sm-2" for="inline-form-custom-select-pref">Number of Questions</label>
-          <b-form-select
-            id="input-1"
-            type="email"
-            placeholder="Enter email"
-            v-model="selectedNumberOfQuestions"
-            :options="['5', '10']"
-            required
-          ></b-form-select>
-              <b-button @click="filterQuestions">Start Game!</b-button>
-      </b-form>
+      <div class="create-game-form">
+        <b-form>
+            <b-form-group
+            id="input-group-1"
+            label="Difficulty"
+            label-for="input-1"
+            
+            >
+              <b-form-select
+                id="input-1"
+                v-model="selectedDifficulty"
+                :options="['Easy', 'Medium', 'Hard']"
+                required
+              ></b-form-select>
+              </b-form-group>
+            <b-form-group
+            id="input-group-2"
+            label="Category"
+            label-for="input-2"
+            
+            >
+            <b-form-select
+              id="input-2"
+              v-model="selectedCategory"
+              :options="['Geography', 'Politics', 'Books', 'Sports', 'History', 'Entertainment: Film', 'Mythology', 'Science & Nature','Entertainment: Video Games', 'Entertainment: Music', 'Science: Computers',]"
+              required
+            ></b-form-select>
+            </b-form-group>
+            <b-form-group
+            id="input-group-3"
+            label="Number of Questions"
+            label-for="input-3"
+            
+            >
+            <b-form-select
+              id="input-3"
+              v-model="selectedNumberOfQuestions"
+              :options="['5', '10']"
+              required
+            ></b-form-select>
+            </b-form-group>
+            <b-button @click="filterQuestions">Start Game!</b-button>
+        </b-form>
+      </div>
     </div>
     <div v-if="filteredQuestions.length">
       <Game
@@ -77,8 +91,8 @@ export default {
   data: function(){
     return {
       selectedNumberOfQuestions: 5,
-      selectedCategory: '',
-      selectedDifficulty: '',
+      selectedCategory: 'Geography',
+      selectedDifficulty: 'easy',
       questions: [],
       filteredQuestions: [] ,
       currentQuestion: 0,
@@ -100,7 +114,7 @@ export default {
     },
     filterQuestions: function(){
       const category = this.questions.filter(q => q.category === this.selectedCategory)
-      const difficulty = category.filter(q => q.difficulty === this.selectedDifficulty)
+      const difficulty = category.filter(q => q.difficulty === this.selectedDifficulty.toLowerCase())
       const shuffled = this.shuffle(difficulty)
       
       this.filteredQuestions = shuffled.slice(0, this.selectedNumberOfQuestions)
@@ -126,8 +140,8 @@ export default {
     },
     resetGame: function(){
       this.selectedNumberOfQuestions = 5
-      this.selectedCategory = ''
-      this.selectedDifficulty = ''
+      this.selectedCategory = 'Geography'
+      this.selectedDifficulty = 'Easy'
       this.filteredQuestions = []
       this.currentQuestion = 0
       this.numberOfCorrectAnswers = 0
@@ -157,5 +171,12 @@ a {
   margin-right: 25%;
   margin-top: 10%;
   font-family: Impact, Charcoal, sans-serif;
+}
+.create-game-form {
+  border: solid;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 </style>

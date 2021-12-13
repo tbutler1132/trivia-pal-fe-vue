@@ -1,7 +1,7 @@
 <template>
   <div>
       <h1>Good game! Your score was {{ numberOfCorrectAnswers }} / {{ totalQuestions }}</h1>
-      <button @click="resetGame">Play again?</button>
+      <b-button @click="resetGame">Play again?</b-button>
   </div>
 </template>
 

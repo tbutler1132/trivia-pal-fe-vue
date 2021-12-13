@@ -11,8 +11,10 @@
                 <div class="answer-options">
                     <b-button 
                     v-for="answer in orderedAnswers"
-                    v-bind:key="answer"
+                    v-bind:key="answer.answer"
                     v-on:click="determineCorrect(answer.correct)"
+                    v-bind:variant="answer.correct ? answerButtonColor : incorrecAnswerButtonColors"
+                    :block="true"
                     >
                     {{ answer.answer }}
                     </b-button>
@@ -33,6 +35,8 @@ export default {
   data: function(){
       return {
           orderedAnswers: [],
+          answerButtonColor: "",
+          incorrecAnswerButtonColors: "",
       }
   },
   created: function(){
@@ -65,9 +69,18 @@ export default {
       },
       determineCorrect: function(correct){
           if(correct){
-              this.questionAnsweredCorrectly()
+            this.answerButtonColor = "success"  
+          }else{
+            this.answerButtonColor = "success"
+            this.incorrecAnswerButtonColors = "danger"
           }
+        setTimeout(() => {
+            if(correct){
+              this.questionAnsweredCorrectly()
+            }
               this.incrementQuestion()
+              this.answerButtonColor = ""
+        }, 2000);
       }
       
   },
@@ -77,7 +90,6 @@ export default {
 <style>
 
     .question{
-        border: solid;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -87,6 +99,12 @@ export default {
         flex-direction: column;
         align-items: center;
         border: solid;
+        height: 200px;
+    }
+    .game-info{
+        display: flex;
+        justify-content: space-around;
+        width: 50%
     }
 
 </style>
