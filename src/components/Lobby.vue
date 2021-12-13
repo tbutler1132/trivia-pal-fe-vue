@@ -1,9 +1,12 @@
 <template>
-  <div class="hello">
-    <div v-if="!filteredQuestions.length">
+  <div>
+    <b-container fluid>
+    <b-row>
+    <b-col>
+    <div v-if="!filteredQuestions.length" class="game-form">
       <h1 class="header">Welcome to Trivia Pal!</h1>
       <h3 class="header">Create a new game!</h3>
-      <div class="create-game-form">
+      <div>
         <b-form>
             <b-form-group
             id="input-group-1"
@@ -48,6 +51,9 @@
         </b-form>
       </div>
     </div>
+    </b-col>
+    </b-row>
+    </b-container>
     <div v-if="filteredQuestions.length">
       <Game
       v-for="(question, index) in filteredQuestions"
@@ -60,6 +66,7 @@
       v-bind:category="selectedCategory"
       v-bind:difficulty="selectedDifficulty"
       v-bind:totalQuestions="selectedNumberOfQuestions"
+      v-bind:numberOfCorrectAnswers="numberOfCorrectAnswers"
       >
       </Game>
     </div>
@@ -150,7 +157,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.header {
+  text-align: center;
+}
 h3 {
   margin: 40px 0 0;
 }
@@ -168,7 +178,7 @@ a {
 .game-form {
   text-align: center;
   margin-left: 25%;
-  margin-right: 25%;
+  margin-right: 5%;
   margin-top: 10%;
   font-family: Impact, Charcoal, sans-serif;
 }
@@ -178,5 +188,5 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
+} 
 </style>
