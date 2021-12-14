@@ -4,15 +4,16 @@
     <b-row>
     <b-col>
     <div v-if="!filteredQuestions.length" class="game-form">
-      <h1 class="header">Welcome to Trivia Pal!</h1>
+      <h1 class="header">Welcome to TriviaPal!</h1>
+      <br/>
       <h3 class="header">Create a new game!</h3>
-      <div>
-        <b-form>
+      <br/>
+        <b-form id="game-form">
             <b-form-group
             id="input-group-1"
             label="Difficulty"
             label-for="input-1"
-            
+            form="game-form"
             >
               <b-form-select
                 id="input-1"
@@ -20,7 +21,7 @@
                 :options="['Easy', 'Medium', 'Hard']"
                 required
               ></b-form-select>
-              </b-form-group>
+            </b-form-group>
             <b-form-group
             id="input-group-2"
             label="Category"
@@ -37,8 +38,7 @@
             <b-form-group
             id="input-group-3"
             label="Number of Questions"
-            label-for="input-3"
-            
+            label-for="input-3" 
             >
             <b-form-select
               id="input-3"
@@ -49,7 +49,6 @@
             </b-form-group>
             <b-button @click="filterQuestions">Start Game!</b-button>
         </b-form>
-      </div>
     </div>
     </b-col>
     </b-row>
@@ -99,7 +98,7 @@ export default {
     return {
       selectedNumberOfQuestions: 5,
       selectedCategory: 'Geography',
-      selectedDifficulty: 'easy',
+      selectedDifficulty: 'Easy',
       questions: [],
       filteredQuestions: [] ,
       currentQuestion: 0,
@@ -177,8 +176,7 @@ a {
 }
 .game-form {
   text-align: center;
-  margin-left: 25%;
-  margin-right: 5%;
+  margin: auto;
   margin-top: 10%;
   font-family: Impact, Charcoal, sans-serif;
 }
@@ -189,4 +187,16 @@ a {
   flex-direction: column;
   justify-content: space-around;
 } 
+#input-1{
+  width: 18%;
+  margin-bottom: 15px;
+}
+#input-2{
+  width: 18%;
+  margin-bottom: 15px;
+}
+#input-3{
+  width: 18%;
+  margin-bottom: 15px;
+}
 </style>

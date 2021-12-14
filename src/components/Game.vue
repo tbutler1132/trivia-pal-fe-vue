@@ -19,7 +19,7 @@
                 <b-row>
                     <b-col class="container-4" sm="7" id="game">
                             <div class="container-1" id="question-div">
-                                <h1>{{ question.question.replace(/&quot;|&#039;/gi, "'").replace(/&amp;/gi, "&") }}</h1>
+                                <h1>{{ replaceCharacters(question.question) }}</h1>
                             <b-container class="container-1">
                                 <div>
                                     <b-row>
@@ -30,9 +30,10 @@
                                         v-on:click="determineCorrect(answer.correct, answer.answer)"
                                         v-bind:variant="answer.answer === clickedAnswer ? variant : 'light'"
                                         size="lg"
+                                        v-bind:disabled="buttonsDisabled"
                                         >
                                         <span>
-                                            {{ answer.answer.replace(/&quot;|&#039;/gi, "'").replace(/&amp;/gi, "&") }}
+                                            {{ replaceCharacters(answer.answer) }}
                                         </span>
                                         </b-button>
                                     </b-row>
@@ -57,6 +58,7 @@ export default {
       return {
           orderedAnswers: [],
           variant: "light",
+          buttonsDisabled: false,
           clickedAnswer: ""
       }
   },
@@ -67,6 +69,9 @@ export default {
       incrementQuestion: function(){
           this.nextQuestion()
       },
+      replaceCharacters: function(str){
+          return str.replace(/&quot;|&#039;/gi, "'").replace(/&amp;/gi, "&")
+      },    
       randomizeAnswerOrder: function(){
           const answerOptions = []
           this.question.incorrect_answers.forEach(el => {
@@ -89,6 +94,7 @@ export default {
             this.orderedAnswers = answerOptions
       },
       determineCorrect: function(correct, answer){
+          this.buttonsDisabled = true
           this.clickedAnswer = answer
           if(!correct){
             this.variant = "danger"  
@@ -102,6 +108,7 @@ export default {
               this.incrementQuestion()
               this.answerButtonColor = ""
               this.clickedAnswer = ""
+              this.buttonsDisabled = false
         }, 2000);
       }
       
