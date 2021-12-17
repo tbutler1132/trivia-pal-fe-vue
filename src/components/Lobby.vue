@@ -107,7 +107,7 @@ export default {
     }
   },
   mounted: async function(){
-      const res = await axios.get('http://localhost:3000/questions')
+      const res = await axios.get('https://dry-cove-27523.herokuapp.com/questions')
       try {
         this.questions = res.data
       } catch (error) {
@@ -115,9 +115,6 @@ export default {
     }
   },
   methods: {
-    fetchQuestions: async function(){
-      console.log(this.questions)
-    },
     filterQuestions: function(){
       const category = this.questions.filter(q => q.category === this.selectedCategory)
       const difficulty = category.filter(q => q.difficulty === this.selectedDifficulty.toLowerCase())
