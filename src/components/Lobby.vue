@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="questions.length">
     <b-container fluid>
     <b-row>
     <b-col>
@@ -78,6 +78,9 @@
       />
     </div>
   </div>
+  <div v-else>
+    Loading...
+  </div>
 </template>
 
 <script>
@@ -107,12 +110,13 @@ export default {
     }
   },
   mounted: async function(){
-      const res = await axios.get('https://dry-cove-27523.herokuapp.com/questions')
+    const res = await axios.get('https://dry-cove-27523.herokuapp.com/questions')
       try {
         this.questions = res.data
       } catch (error) {
         console.log(error)
     }
+        console.log("QUESTIONS", this.questions)
   },
   methods: {
     filterQuestions: function(){

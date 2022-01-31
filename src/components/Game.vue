@@ -135,7 +135,8 @@ export default {
     font-family: Impact, Charcoal, sans-serif;
     justify-content: center;
     text-align: center;
-    height: 500px;
+    min-height: fit-content;
+    height: 550px;
     }
     .container-1 {
     background-color: #9bd1e5;
@@ -150,7 +151,7 @@ export default {
     border-color: black;
     font-family: Impact, Charcoal, sans-serif;
     height: 100%;
-    max-height: 450px;
+    /* max-height: 450px; */
     }
 
     [id="_blank"] {
