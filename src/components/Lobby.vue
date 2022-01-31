@@ -31,7 +31,7 @@
             <b-form-select
               id="input-2"
               v-model="selectedCategory"
-              :options="['Geography', 'Politics', 'Books', 'Sports', 'History', 'Entertainment: Film', 'Mythology', 'Science & Nature','Entertainment: Video Games', 'Entertainment: Music', 'Science: Computers',]"
+              :options="['Geography', 'Politics', 'Sports', 'History', 'Entertainment: Film', 'Mythology', 'Science & Nature','Entertainment: Video Games', 'Entertainment: Music', 'Science: Computers',]"
               required
             ></b-form-select>
             </b-form-group>
