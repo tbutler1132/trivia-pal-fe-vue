@@ -150,7 +150,7 @@ export default {
     border: 1px #ccc solid;
     border-color: black;
     font-family: Impact, Charcoal, sans-serif;
-    height: 100%;
+    height: 90%;
     /* max-height: 450px; */
     }
 
